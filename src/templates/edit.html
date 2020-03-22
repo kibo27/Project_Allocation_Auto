@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Faculty List</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            body
+		{
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background: #7abecc !important;
+		}
+        </style>
+    </head>
+    <body>
+<div class="container text-center">
+    <nav class="navbar navbar-light bg-light navbar-default">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <a href="#" class="navbar-brand">Edit Details</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'faculty' %}">Faculty List</a></li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'edit' %}">Edit Details</a></li>
+      <li class="nav-item"><a class="nav-item" href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+    </div>
+    </nav>
+
+<div class="container">
+    <h2>Fill The Details</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        {{ form.name }}
+      </div>
+      <div class="form-group">
+        <label for="Gender">Gender:</label>
+        {{ form.gender }}
+      </div>
+      <div class="form-group">
+        <label for="CPI">CPI:</label>
+        {{ form.cpi }}
+      </div>
+      {{ form.errors }}
+      <input class="button-custom" type="submit" value="DONE">
+    </form>
+  </div>
+</body>
+</html>
+
+

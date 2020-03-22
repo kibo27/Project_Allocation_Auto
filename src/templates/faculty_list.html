@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Faculty List</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background: #7abecc !important;
+		}
+        </style>
+    </head>
+    <body>
+        <div class="container text-center">
+            <nav class="navbar navbar-light bg-light navbar-default">
+            <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#" class="navbar-brand">Faculty</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'faculty' %}">Faculty List</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'edit' %}">Edit Details</a></li>
+                <li class="nav-item"><a class="nav-item" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+        </nav>
+        </div>
+<div class="container text-center">
+{% if user.is_authenticated %}
+<p>Hello {{ user.username }}</p>
+{% endif %}
+<ul class="list-group">
+{% for i in list%}
+<div class="row">
+<li class="list-group-item h4 well well-sm">{{ i.id }} {{ i.name }}</li>
+</div>
+{%  endfor %}
+</ul>
+</div>
+</body>
+</html>
+
