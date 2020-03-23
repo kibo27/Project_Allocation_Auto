@@ -18,10 +18,12 @@ from django.urls import path
 from student import views as v
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',v.home_v,name='home'),
     path('faculty/',v.Faculty_list,name='faculty'),
     path('register/',v.register_v,name='register'),
     path('login/',v.login_v,name='login'),
     path('login/edit/',v.edit_v,name='edit'),
     path('logout/',v.logout_v,name='logout'),
-    path('profile',v.profile,name='profile')
+    path('profile/',v.profile,name='profile'),
+    path('choice/',v.choice_v,name='choice')
 ]

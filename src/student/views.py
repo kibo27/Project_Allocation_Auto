@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm, RegistrationForm, LoginForm
+from .forms import UserForm, RegistrationForm, LoginForm,choices
 from django.http import HttpResponse, Http404
-from .models import Faculty,student
+from .models import Faculty,student,choice
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages 
 
@@ -17,7 +17,8 @@ def register_v(request):
             if form.is_valid():
                 new_user=form.save(commit=False)
                 new_user.save()
-                student.objects.create(user=new_user)
+                stud=student.objects.create(user=new_user)
+                choice.objects.create(student=stud)
                 cd = form.cleaned_data
                 user = authenticate(
                     request,
@@ -69,6 +70,30 @@ def edit_v(request):
         
     return render(request, 'edit.html', {'form': form})
 
+def choice_v(request):
+    if request.method=="POST":
+        ch =choice.objects.get(student=request.user.student)
+        form= choices(request.POST)
+        if form.is_valid():
+            le=len(form.fields)
+            for i in form.fields:
+                cd = form.cleaned_data[i]
+                setattr(ch,i,cd.id)
+            ch.save()
+            return redirect('profile')
+    else:    
+        form = choices()
+        ch =choice.objects.get(student=request.user.student)
+        if ch.cfilled == True:
+            for i in form.fields:
+                cd=getattr(ch,i)
+                form.fields[i].initial=cd
+            print("true")
+        else:
+            setattr(ch,'cfilled',True)
+            ch.save()
+            print("false")
+        return render(request, 'choice.html',{"form":form})
 
 def logout_v(request):
 	logout(request)
@@ -77,3 +102,7 @@ def logout_v(request):
 def profile(request):
     student = request.user.student
     return render(request, 'profile.html', {'student': student})
+
+
+def home_v(request):
+    return render(request,'home.html',{})
