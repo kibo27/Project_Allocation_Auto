@@ -43,7 +43,7 @@ class studentAdmin(admin.ModelAdmin):
                 if(fac.saa == False):
                     i.sa=fac
                     i.fac_allocated=True
-                    fac.sa=i.user.username
+                    fac.sa=i.regno
                     fac.saa=True
                     i.save()
                     fac.save()
@@ -51,7 +51,7 @@ class studentAdmin(admin.ModelAdmin):
                 elif(fac.sba == False):
                     i.sa=fac
                     i.fac_allocated=True
-                    fac.sb=i.user.username
+                    fac.sb=i.regno
                     fac.sba=True
                     i.save()
                     fac.save()
@@ -59,7 +59,7 @@ class studentAdmin(admin.ModelAdmin):
                 elif(fac.sca == False):
                     i.sa=fac
                     i.fac_allocated=True
-                    fac.sc=i.user.username
+                    fac.sc=i.regno
                     fac.sca=True
                     i.save()
                     fac.save()

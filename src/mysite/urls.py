@@ -25,5 +25,6 @@ urlpatterns = [
     path('login/edit/',v.edit_v,name='edit'),
     path('logout/',v.logout_v,name='logout'),
     path('profile/',v.profile,name='profile'),
-    path('choice/',v.choice_v,name='choice')
+    path('choice/',v.choice_v,name='choice'),
+    path('teacher/',v.teacher_v,name='teacher'),
 ]

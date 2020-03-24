@@ -15,6 +15,9 @@ class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+class TeacherForm(forms.Form):
+    id =forms.CharField()
+
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model=student

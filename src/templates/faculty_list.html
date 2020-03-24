@@ -15,6 +15,7 @@
         </style>
     </head>
     <body>
+        {% if user.is_authenticated %}
         <div class="container text-center">
             <nav class="navbar navbar-light bg-light navbar-default">
             <div class="container-fluid">
@@ -31,6 +32,7 @@
         </div>
         </nav>
         </div>
+    {% endif %}
 <div class="container text-center">
 {% if user.is_authenticated %}
 <p>Hello {{ user.username }}</p>

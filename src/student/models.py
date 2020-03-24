@@ -18,6 +18,7 @@ class Faculty(models.Model):
 
 class student(models.Model):
     name=models.CharField(max_length=120,blank=False)
+    regno=models.IntegerField(null=False,editable=True)
     cpi=models.DecimalField(max_digits=3, decimal_places=2,null=True,blank=False)
     gender_choices=[('M','Male'),('F','Female')]
     gender=models.CharField(choices=gender_choices,max_length=1,default=None,null=True)

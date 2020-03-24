@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Faculty List</title>
+        <title>profile</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -54,6 +54,21 @@
                         {{ student.gender }}
             </div>  
 </div>
+{% if student.to == True %}
+<div class="container text-center well well-sm">
+    {% if student.fac_allocated == True%}
+     <div class="h3">
+        Your alloacted faculty
+        :
+        {{ student.sa }}
+     </div>
+    {% else %} 
+    <div class="h3">
+        You are not alloacted Teacher Yet!
+    </div>
+    {% endif %} 
+</div>
+{% endif %}
 </body>
 </html>
 

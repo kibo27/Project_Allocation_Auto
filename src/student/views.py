@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm, RegistrationForm, LoginForm,choices
+from .forms import UserForm, RegistrationForm, LoginForm,choices,TeacherForm
 from django.http import HttpResponse, Http404
 from .models import Faculty,student,choice
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages 
-
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def register_v(request):
     if request.user.is_authenticated:
-    	return redirect('/')
+    	return redirect('profile')
     else:
         form = UserForm()
         if request.method == "POST":
@@ -17,9 +18,9 @@ def register_v(request):
             if form.is_valid():
                 new_user=form.save(commit=False)
                 new_user.save()
-                stud=student.objects.create(user=new_user)
-                choice.objects.create(student=stud)
                 cd = form.cleaned_data
+                stud=student.objects.create(user=new_user,regno=cd['username'])
+                choice.objects.create(student=stud)
                 user = authenticate(
                     request,
                     username=cd['username'],
@@ -34,7 +35,7 @@ def register_v(request):
 
 def login_v(request):
     if request.user.is_authenticated:
-        return redirect('/')
+        return redirect('profile')
     else:
         if request.method == "POST":
             form= LoginForm(request.POST)
@@ -58,7 +59,8 @@ def login_v(request):
 def Faculty_list(request):
     list=Faculty.objects.all()
     return render(request,'faculty_list.html',{'list':list})
-    
+
+@login_required    
 def edit_v(request):
     form = RegistrationForm(instance=request.user.student)
     if request.method == 'POST':
@@ -70,6 +72,7 @@ def edit_v(request):
         
     return render(request, 'edit.html', {'form': form})
 
+@login_required
 def choice_v(request):
     if request.method=="POST":
         ch =choice.objects.get(student=request.user.student)
@@ -94,15 +97,42 @@ def choice_v(request):
             ch.save()
             print("false")
         return render(request, 'choice.html',{"form":form})
-
+@login_required
 def logout_v(request):
 	logout(request)
 	return redirect('login')
 
+@login_required
 def profile(request):
     student = request.user.student
+    print(student.sa)
     return render(request, 'profile.html', {'student': student})
-
 
 def home_v(request):
     return render(request,'home.html',{})
+
+def teacher_v(request):
+    if request.method=="POST":
+        form =TeacherForm(request.POST)
+        if form.is_valid():
+            cd=form.cleaned_data['id']
+            fac=get_object_or_404(Faculty,id=cd)
+            print("you are "+fac.name+" child alloacted "+str(fac.sa))
+            if fac.saa ==True:
+                ca=get_object_or_404(student,regno=fac.sa)
+                if fac.sba ==True:
+                    cb=get_object_or_404(student,regno=fac.sb)
+                    if fac.sca ==True:
+                        cc=get_object_or_404(student,regno=fac.sc)
+                        return render(request,'teacher_list.html',{'fac':fac, 'ca':ca,'cb':cb,'cc':cc})
+                    else:
+                        return render(request,'teacher_list.html',{'fac':fac, 'ca':ca,'cb':cb})
+                else:
+                    print(fac.saa)
+                    print(ca.name)
+                    return render(request,'teacher_list.html',{'fac':fac, 'ca':ca})
+            else:
+                return render(request,'teacher_list.html',{'fac':fac}) 
+    else:
+        form=TeacherForm()
+        return render(request,'teacher.html',{'form':form})
